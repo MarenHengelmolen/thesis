@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8">
+        <title>CFD pre-run settings validation</title>
+        <link rel="stylesheet" href="/static/style_explanation.css" />
+        <style>
+            .hidden {
+            display: none;
+            }
+            a { text-decoration: none; }
+        </style>
+    <SCRIPT SRC='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></SCRIPT>
+    <SCRIPT>MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}})</SCRIPT>
+
+</head>
+    <body>
+        <header> </header>
+        <main class="table">
+            <section class="table__header">
+                <h1>Explanation</h1>
+            </section>
+
+    <section class="table__body">
+        <tr>
+        <h3 id="Content">Content</h3><br>
+        <div class="table_of_content">
+                <ul class="content_list">
+                    <li><b><a  style="color:#000000"  href="#Mesh definition parameters">Mesh definition parameters</a></b></li>
+                    <div class="table_of_content_2">
+                        <ul class="content_list_2">
+                            <li><a  style="color:#000000"  href="#Flow direction">Flow direction</a></li>
+                            <li><a  style="color:#000000"  href="#Target evaluation height">Target evaluation height</a></li>
+                            <li><a  style="color:#000000"  href="#Unit parameter">Unit parameter</a></li>
+                            <li><a  style="color:#000000"  href="#Domain definition">Domain definition</a></li>
+                            <li><a  style="color:#000000"  href="#Refinement boxes">Refinement boxes</a></li>
+                            <li><a  style="color:#000000"  href="#Maximum roughness length">Maximum roughness length</a></li>
+                            <li><a  style="color:#000000"  href="#Maximum number of cells">Maximum number of cells</a></li>
+                            <li><a  style="color:#000000"  href="#Maximum cell ratio">Maximum cell ratio</a></li>
+                            <li><a  style="color:#000000"  href="#Maximum building separation and street distribution">Maximum building separation and street distribution</a></li>
+                            <li><a  style="color:#000000"  href="#Target building">Target building</a></li>
+                        </ul>
+                    </div><br>
+
+                    <li><b><a  style="color:#000000"  href="#Geometric validation parameters">Geometric validation parameters</a></b></li>
+                        <div class="table_of_content_2">
+                        <ul class="content_list_2">
+                            <li><a  style="color:#000000"  href="#val3dity">val3dity</a></li>
+                            <li><a  style="color:#000000"  href="#Topological relationships threshold">Topological relationships thresholds</a></li>
+                            <li><a  style="color:#000000"  href="#Sliver triangle threshold">Sliver triangle threshold</a></li>
+                            <li><a  style="color:#000000"  href="#Short edge threshold">Short edge threshold</a></li>
+                            <li><a  style="color:#000000"  href="#Sharp angle threshold">Sharp angle threshold</a></li>
+                            <li><a  style="color:#000000"  href="#Ground surfaces">Ground surfaces</a></li>
+                        </ul>
+                    </div><br>
+
+                    <li><b><a  style="color:#000000"  href="#Results">Results</a></b></li>
+                    <div class="table_of_content_2">
+                        <ul class="content_list_2">
+                            <li><a  style="color:#000000"  href="#Separate building and terrain validation">Separate building and terrain validation</a></li>
+                            <li><a  style="color:#000000"  href="#Topological relationships errors">Topological relationships errors</a></li>
+                            <li><a  style="color:#000000"  href="#Sharp angles">Sharp angles</a></li>
+                            <li><a  style="color:#000000"  href="#Sliver triangles">Sliver triangles</a></li>
+                            <li><a  style="color:#000000"  href="#Short edges">Short edges</a></li>
+                            <li><a  style="color:#000000"  href="#Overlapping buildings">Overlapping buildings</a></li>
+                            <li><a  style="color:#000000"  href="#Rotated 3D model">Rotated 3D model</a></li>
+                            <li><a  style="color:#000000"  href="#blockMeshDict">blockMeshDict</a></li>
+                            <li><a  style="color:#000000"  href="#snappyHexMeshDict">snappyHexMeshDict</a></li>
+                            <li><a  style="color:#000000"  href="#Region of Interest (RoI)">Region of Interest (RoI)</a></li>
+                            <li><a  style="color:#000000"  href="#Buildings with insufficient cells">Buildings with insufficient cells</a></li>
+                            <li><a  style="color:#000000"  href="#Building separations with insufficient cells">Building separations with insufficient cells</a></li>
+                        </ul>
+                    </div><br>
+                    <li><b><a  style="color:#000000"  href="#Sources">Sources</a></b></li>
+                </ul>
+        </div><br>
+
+
+            <h3 id="Mesh definition parameters">Mesh definition parameters</h3><br>
+
+            <h4 id="Flow direction">Flow direction</h4>
+            <p>The 3D city model needs to be aligned with the incoming flow as simulated in OpenFOAM, which flows along the x-axis. The figure below shows the angles used for this parameter (a) and some examples of rotations (b). A default value of 90º is used, corresponding to a 3D model without rotation.</p><br>
+            <br>
+            <div style="text-align: center;"> <img width="600"  src='../static/images/Model_orientation.svg' alt="Model orientation"><br></div>
+
+            <h4 id="Target evaluation height">Target evaluation height</h4>
+            <p>The height at which flows are analysed is referred to as evaluation height. For CFD simulations at pedestrian level, this evaluation height is usually set between 1.5 and 2m (Blocken, 2015). For drones, for example, this could be set at 10m. A default value of 1.5m is applied.</p> <br>
+
+            <h4 id="Unit parameter">Unit parameter</h4>
+            <p>One unit in the 3D model is considered as 1 meter. When another unit is required, this can be changed by this parameter.</p> <br>
+
+            <h4 id="Domain definition">Domain definition</h4>
+            <p>The minimum domain dimensions outlined by Franke and Baklanov (2007) are taken into consideration. They suggest distances between urban models and domain boundaries as illustrated in the figure below. Note that the height of the tallest building (h<sub>max</sub>) is used; however, the largest building dimension (d<sub>max</sub>) can also be applied (Liu et al., 2018). For this reason, users are allowed to choose between h<sub>max</sub> and d<sub>max</sub>.<br><br>
+
+            <div style="text-align: center;"> <img width="500"  src='../static/images/Domain%20with%20BRs.svg' alt="Domain"><br></div><br>
+
+            Furthermore, there is an option to choose between two sets of blockage ratios. The first set describes a blockage ratio BR between the wind-facing area of the 3D city model, and the area of the inlet boundary of the domain (Franke and Baklanov, 2007). BR should remain below 3%. The second set suggests two blockage ratios: the lateral horizontal blockage ratio BR<sub>L</sub>, and the vertical blockage ratio BR<sub>H</sub>. BR<sub>L</sub> is the ratio between the length of the urban area facing the wind direction and the length of the inlet boundary; and BR<sub>H</sub> is the one between the height of the tallest building and the height of the computational domain. Both BR<sub>L</sub> and BR<sub>H</sub> must remain below 17%.<br><br>
+            $$ BR = {A_{urban}> \over A_{domain}}, BR \le 3\%$$
+            $$ BR_L = {L_{building} \over L_{domain}}, BR_L \le 17%$$
+            $$ BR_H = {H_{building} \over H_{domain}}, BR_H \le 17%$$
+            No blockage ratios are selected by default.</p>
+            <br><br>
+
+            <h4 id="Refinement boxes">Refinement boxes</h4>
+            <p>A refinement box delineates an area where the cell dimensions are reduced to increase the number of cells in which the Navier-Stoke equations can be solved. A minimum number of three refinement boxes is suggested for CFD simulations in urban areas (Franke and Baklanov, 2007). However, in practise, two refinement boxes are often used. For this reason, the option is given to choose between two or three refinement boxes.<br><br>
+            In general, with three refinement boxes, the first box is placed directly around the urban area and is a bit higher than the tallest building; the second box surrounds the first and extends slightly toward the outflow boundary; the last box is placed around the second one. With two refinement boxes, only the two first of these boxes are generated. Also, the closer the refinement box is to the urban area, the higher the refinement level of the cells. The figure below shows an example of refinement boxes defined for an urban CFD simulation.<br><br>
+            <div style="text-align: center;"> <img width="400"  src='../static/images/Refinement%20box%20example.png' alt="Refinement box"><br></div><br>
+            Note that the refinement boxes should maintain the same proportions as the computational domain, except for the one the closest to the urban area. <br><br>
+            The dimensions of the refinement boxes can be indicated by setting multiples of h<sub>max</sub> or d<sub>max</sub> (dependent on which values was used to define the domain) for the inlet, outlet, lateral and top boundaries. For example, the settings <i>box 1: 2 6 2 2</i> imply 2xh<sub>max</sub> (or d<sub>max</sub>) between the urban area and the inlet, lateral, and top boundaries of the refinement box, and 6xh<sub>max</sub> (or d<sub>max</sub>) between the urban area and the outflow boundary of the refinement box.
+
+
+            <p style="text-align: center;"></p><br>
+
+            The following default values are set for each refinement box: <i>box 1: 0.5 0.5 0.5 1.5</i>, <i>box 2: 2 6 2 2</i>, and <i>box 3: 3 9 3 3</i>.</p><br>
+
+            <h4 id="Maximum roughness length">Maximum roughness length</h4>
+            <p>The centre point of the first cell should be placed at a minimum distance of at least one roughness height z<sub>0</sub> from the wall (Tominaga et al., 2008), which is the bottom boundary of the computational domain. Therefore, the maximum roughness height used in the CFD simulation must be indicated. </p><br>
+
+            <h4 id="Maximum number of cells">Maximum number of cells</h4>
+            <p>An important limitation is the available memory of the computers (Franke and Baklanov, 2007). Therefore, users have the option to specify the total number of cells in the final mesh. A default value of 30 million cells is set. <br><br>
+            Note that the method used approximates this number of cells. There is no guarantee that it matches the actual number generated by OpenFOAM. On average, this number differs by -12.12% when no ground refinement is applied, and -22.20% when ground refinement is implemented. </p> <br>
+
+            <h4 id="Maximum cell ratio">Maximum cell ratio</h4>
+            <p>The cell ratio is defined as the cell height divided by its width. Ideally, its value should be 1; however, a higher cell ratio is allowed to  meet more CFD guidelines, such as ensuring at least 10 cells per cube root of the building volume and building separation (Franke and Baklanov, 2007; Blocken, 2015; Tominaga, 2008). A default value of 1.20 is selected, which corresponds to a cell with a height of 1m and a width of 0.80m. </p><br>
+
+            <h4 id="Maximum building separation and street distribution">Maximum building separation and street distribution</h4>
+            <p>A building separation is considered as the distance between two buildings and should measure at least 10 cells (Franke and Baklanov, 2007; Blocken, 2015; Tominaga, 2008). This minimum might lead to excessive mesh complexity as some cities might have narrow streets. Therefore, separations below a specific distance are excluded, which can be set with the maximum building separation parameter. The default value of this threshold is 2m, but could also be user-defined.<br><br>
+                To help users determine an appropriate threshold, a histogram displaying the street width distribution can be displayed. This can be achieved by selecting the street distribution option when uploading the 3D model and configuring the parameters. </p> <br>
+
+            <h4 id="Target building">Target building</h4>
+            <p>A target building is the building on which the focus lies during a CFD simulation. <br><br>
+            This parameter is used to define the Region of Interest (Rol), which selects buildings around the target that should be modeled in more detail. This region allows to find a balance between accurate simulation results and computational performance. In fact, the level of detail of surrounding buildings significantly impacts the simulation results around the target building (García-Sánchez, 2021). However, modelling all buildings in the domain would be computationally expensive. The RoI applied is introduced by Liu et al. (2018), which recommend to include buildings within a radius of at least 3·L around the target building. <br><br>
+            Users have the option to specify a target building by selecting the target building option and indicating one of the vertices from its ground surfaces. When no target building is specified, its centre is set to the centre of the 3D city model. At the end, the buildings intersecting with the defined RoI are stored.</p><br><br>
+
+            <h3 id="Geometric validation parameters">Geometric validation parameters</h3><br>
+
+            <h4 id="val3dity">val3dity</h4>
+            <p>Standards were developed to define basic primitives (ISO19107) (ISO, 2019) and provide guidelines for their digitization (OGC, 2016, 2011), with the aim of enhancing the interoperability and exchange of geographical data. As the quality of geometries plays an important role in CFD simulations, verifying them based on the ISO19107 standard could be a “useful starting point” (Wagner et al., 2015). Therefore, the validation tool named val3dity developed by Ledoux (2018) was implemented. <br><br>
+            val3dity is an open-source software that validates 3D primitives based on ISO19107, with the common GIS exception that they need to be linear or planar. More information on this software can be found on the <a style="color:#33726f" href="https://github.com/tudelft3d/val3dity/tree/main">val3dity GitHub page</a>. <br><br>
+            val3dity takes into account some user-defined tolerances.</p><br>
+
+            <div class="list_explanation">
+                <ul class="l_explanation">
+                  <li>Snap tolerance: two vertices are considered identical if they are separated by this value or less (default: 0.001)</li>
+                  <li>Planarity tolerance: ISO19107 requires all vertices of a planar surface to lie on one plane, which is almost impossible with real-world data (Ledoux, 2013). For this reason, val3dity considers this parameter defining the maximum distance between a point and a fitted plane (Ledoux, 2018) (default: 0.001)</li>
+                  <li>Overlap tolerance: two Solids that overlap or are disconnected by this value or less are considered properly connected (default: -1, which stands for disabled).</li>
+                </ul>
+            </div>
+
+            <br>
+
+            <h4 id="Topological relationships threshold">Topological relationships thresholds</h4>
+            <p>The validation of topological relationships involves verifying whether building objects are correctly positioned on terrain surfaces.<br><br>
+            During this validation, the following buildings are identified: </p>
+            <div class="list_explanation">
+                <ul class="l_explanation">
+                    <li>Floating buildings (in reality, buildings are always connected to the ground)</li>
+                    <li>Buildings separated by a specific distance from terrain surfaces.</li>
+                </ul>
+            </div><br>
+            <p>This distance is defined by the topological relationships threshold, with a default value of 0.5m.</p> <br>
+            <p>In the absence of terrain features, the ground level is used instead of terrain surfaces. This level corresponds to either a user-defined value or the lowest z-value in the input model. The former can be indicated by selecting the ground level option and inserting the required value.</p> <br>
+
+            <h4 id="Sliver triangle threshold">Sliver triangle threshold</h4>
+            <p>Sliver triangles are triangles with a sliver parameter lower than a specific threshold, which can be indicated with this parameter. This sliver parameter is defined by using the following formula (Artwork Conversion Software, n.d.):</p>
+            $$ s = {2 \times area \over perimeter}$$
+            <p>They are identified to help users simplify their geometries, as small geometric details might affect the meshing process. </p><br>
+
+            <h4 id="Short edge threshold">Short edge threshold</h4>
+            <p>Short edges are edges shorter than a specific threshold (m), which can be indicated with this parameter. They are identified to help users simplify their geometries, as small geometric details might affect the meshing process. </p><br>
+
+            <h4 id="Sharp angle threshold">Sharp angle threshold</h4>
+            <p>Sharp angles are angles between two faces smaller than a specified threshold (º), which can be indicated with this parameter. They are identified to help users simplify their geometries, as small geometric details might affect the meshing process. </p><br>
+
+            <h4 id="Ground surfaces">Ground surfaces</h4>
+            <p>For the topological relationships validation, the ground surfaces of buildings are used. Building surfaces lower than a given threshold h (default: 3m) and with an angle smaller than a threshold  theta (default: 45º) with regard to the ground are considered as ground surfaces. The figure below illustrates this method. <br><br>
+            <div style="text-align: center;"> <img width="400"  src='../static/images/Ground_surfaces.svg' alt="Ground surfaces"><br></div>
+                Note that these values must carefully be selected. In fact, this approach might lead to incorrect results when, for example, buildings contain internal geometries, or have heights lower than h and flat roofs.</p><br><br>
+
+
+            <h3 id="Results">Results</h3><br>
+
+            <h4 id="Separate building and terrain validation">Separate building and terrain validation</h4>
+            <p>Report describing errors and warnings from the separate building and terrain validations performed by the val3dity software. More information can be found on the <a style="color:#33726f" href="https://github.com/tudelft3d/val3dity/tree/main">val3dity GitHub page</a>.</p><br>
+
+                        <h4 id="Topological relationships errors">Topological relationships errors</h4>
+            <p>Both OBJ and TXT files are given to users to visualise topological relationships.</p><br>
+
+            <div class="list_explanation">
+                <ul class="l_explanation">
+                    <li>Input model with terrain surfaces: </li>
+                    <div class="list_explanation">
+                        <ul class="l_explanation">
+                            <li>OBJ file showing terrain surfaces and vertices of ground surfaces that are not correctly positioned (i.e. vertices higher than terrain surfaces, or separated with a distance higher than a specific value) </li>
+                            <li>TXT file indicating terrain surfaces by their centroids and vertices of ground surfaces by their coordinates that are not correctly positioned. Also, the distance between them is given.   </li><br>
+                            <div style="text-align: center;"> <img width="300"  src='../static/images/A_topo.png' alt="topo1"><br></div><br>
+
+                        </ul>
+                    </div><br>
+                    <li>Input model without terrain surfaces: </li>
+                       <div class="list_explanation">
+                        <ul class="l_explanation">
+                            <li>OBJ file showing vertices of ground surfaces that are not correctly positioned with regard to the ground level (i.e. vertices with a z-value higher than ground level, or separated with a distance higher than a specific value). This is done by visualising these vertices and the same vertices but with the z-value of the ground level.</li>
+                            <li>TXT file indicating the pairs of vertices previously described with the distance between them.  </li><br>
+                            <div style="text-align: center;"> <img width="300"  src='../static/images/A_topo_2.png' alt="topo2"><br></div><br>
+                        </ul>
+                    </div>
+                </ul>
+            </div><br>
+
+
+            <h4 id="Sharp angles">Sharp angles</h4>
+            <p>Both OBJ and TXT files are given to users to visualise sharp angles. In the TXT file, pairs of faces representing these sharp angles are indicated. For each face, their centroid is provided.</p><br>
+            <div style="text-align: center;"> <img width="300"  src='../static/images/A_sharpangles.png' alt="sa_results"><br></div><br>
+
+
+            <h4 id="Sliver triangles">Sliver triangles</h4>
+            <p>Both OBJ and TXT files are given to users to visualise sliver triangles. In the TXT file, these angles are indicated by their centroids.</p><br>
+            <div style="text-align: center;"> <img width="300"  src='../static/images/A_slivers.png' alt="slivers_results"><br></div><br>
+
+            <h4 id="Short edges">Short edges</h4>
+            <p>Both OBJ and TXT files are given to users to visualise short edges. In the TXT file, pairs of vertices representing these edges are indicated.</p><br>
+            <div style="text-align: center;"> <img width="300"  src='../static/images/A_shortedges.png' alt="se_results"><br></div><br>
+
+            <h4 id="Overlapping buildings">Overlapping buildings</h4>
+            <p>Both OBJ and TXT files are given to users to visualise overlapping buildings. In the TXT file, pairs of overlapping buildings are indicated with their corresponding centroids.</p><br>
+            <div style="text-align: center;"> <img width="250"  src='../static/images/A_overlapping.png' alt="ob_results"><br></div><br>
+
+            <h4 id="Rotated 3D model">Rotated 3D model</h4>
+            <p>Aligned input model with the incoming flow in OpenFOAM based on the flow direction. This OBJ file can be used to run the CFD simulation.</p><br>
+
+            <h4 id="blockMeshDict">blockMeshDict</h4>
+            <p>OpenFOAM configuration file in which the background mesh is defined, including domain dimensions and number of cells in each direction.</p><br>
+
+            <h4 id="snappyHexMeshDict">snappyHexMeshDict</h4>
+            <p>OpenFOAM configuration file in which parameters for the final mesh are defined such as dimensions and refinement levels of the refinement boxes. Additionally, it includes parameters for the ground refinement box when required.</p><br>
+
+            <h4 id="Region of Interest (RoI)">Region of Interest (RoI)</h4>
+            <p>A cylinder representing the RoI and the buildings within this area are provided as two separate OBJ files. The former can be used to recompute the mesh parameters and run the CFD simulation for a better balance between accuracy and computational performance; the latter can be used with the input model to visualise buildings that must be included and the ones that can be excluded.  Additionally, a TXT file is returned providing the centroid of buildings within the RoI.</p> <br>
+
+            <h4 id="Buildings with insufficient cells">Buildings with insufficient cells</h4>
+            <p>Both a OBJ and TXT file are given to users to show buildings with less than 10 cells per cube root of the building volume. In the TXT file, the location of these buildings are provided by their centroids.</p> <br>
+
+            <h4 id="Building separations with insufficient cells">Building separations with insufficient cells</h4>
+            <p>Both a OBJ and TXT file are given to users to show buildings with separations that are shorter than 10 cells. In the TXT file, the location of these buildings are provided by their centroids. </p><br><br>
+
+         <h3 id="Sources">Sources</h3><br>
+        <p>
+
+            Artwork Conversion Software (n.d.). Sliver Definition and Removal.
+            ISO (2019). ISO 19107:2019(en) geographic information — spatial schema.<br><br>
+
+            Blocken, B. (2015). Computational fluid dynamics for urban physics: Importance, scales,
+            possibilities, limitations and ten tips and tricks towards accurate and reliable simulations.
+            91:219–245.<br><br>
+
+            Franke, J. and Baklanov, A. (2007). <i>Best Practice Guideline for the CFD Simulation of Flows in
+            the Urban Environment: COST Action 732 Quality Assurance and Improvement of Microscale
+            Meteorological Model</i><br><br>
+
+            García-Sánchez, C., Vitalis, S., Paden, I., and Stoter, J. (2021). The impact of level of detail
+            in 3d city models for cfd-based wind flow simulations. <i>The International Archives of the
+            Photogrammetry, Remote Sensing and Spatial Information Sciences</i>, XLVI-4/W4-2021:67–72.<br><br>
+
+            ISO (2019). ISO 19107:2019(en) geographic information — spatial schema.<br><br>
+
+            Ledoux, H. (2013). On the validation of solids represented with the international standards
+            for geographic information: On the validation of solids represented with the international
+            standards. 28(9):693–706.<br><br>
+
+            Ledoux, H. (2018). val3dity: validation of 3d GIS primitives according to the international
+            standards. 3(1):1<br><br>
+
+            OGC (2011). OpenGISR implementation standard for geographic information - simple feature
+            access - part 1: Common architecture. OGC 06-103r4, version 1.2.1.<br><br>
+
+            OGC (2016). OpenGISR geography markup language (GML) encoding standard. OGC 07-
+            036r1, version 3.2.2.<br><br>
+
+            Tominaga, Y., Mochida, A., Yoshie, R., Kataoka, H., Nozu, T., Yoshikawa, M., and Shirasawa,
+            T. (2008). AIJ guidelines for practical applications of CFD to pedestrian wind environment
+            around buildings. 96(10):1749–1761.<br><br>
+
+            Liu, S., Pan, W., Zhao, X., Zhang, H., Cheng, X., Long, Z., and Chen, Q. (2018). Influence
+            of surrounding buildings on wind flow around a building predicted by CFD simulations.
+            140:1–10.<br><br>
+
+            Wagner, D., Alam, N., Wewetzer, M., Pries, M., and Coors, V. (2015). Methods for geometric
+            data validation of 3D city models. <i>The International Archives of the Photogrammetry, Remote
+            Sensing and Spatial Information Sciences </i>, XL-1/W5:729–735.
+
+        </p><br><br>
+        </tr>
+        </section>
+        </main>
+    </body>
+</html>
+
+

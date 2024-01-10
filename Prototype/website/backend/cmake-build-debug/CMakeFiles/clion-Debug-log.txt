@@ -1,0 +1,21 @@
+C:\Windows\system32\wsl.exe --distribution Ubuntu --exec /bin/bash -c "export CMAKE_COLOR_DIAGNOSTICS=ON && export CLION_IDE=TRUE && export JETBRAINS_IDE=TRUE && cd /home/mhengelmolen/Prototype/website/backend/cmake-build-debug && /usr/local/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DLIBRARY=true -G 'CodeBlocks - Unix Makefiles' -S /home/mhengelmolen/Prototype/website/backend -B /home/mhengelmolen/Prototype/website/backend/cmake-build-debug"
+-- Using header-only CGAL
+-- Targetting Unix Makefiles
+-- Using /usr/bin/c++ compiler.
+-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found suitable version "1.74.0", minimum required is "1.48")  
+-- Boost include dirs: /usr/include
+-- Boost libraries:    
+-- Using gcc version 4 or later. Adding -frounding-math
+-- Build type: Release
+-- USING CXXFLAGS = '-O3 -O3 -DNDEBUG'
+-- USING EXEFLAGS = ' '
+-- CGAL::CGAL
+-- 
+-- CGAL found
+-- CGAL
+-- 
+-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found version "1.74.0") found components: filesystem 
+-- Building val3dity library
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/mhengelmolen/Prototype/website/backend/cmake-build-debug

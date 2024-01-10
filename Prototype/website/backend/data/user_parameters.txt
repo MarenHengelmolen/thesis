@@ -1,0 +1,45 @@
+name            buildings.obj
+buildings 		../output/buildings.obj
+wd 			    90
+unit            1
+n_boxes 		3
+h_user			1.5
+z0			    0.5
+N_max			30e6
+r_min			1.2
+d_separation	2
+BR			    0
+dim             0
+target			0
+x			    52825.4
+y			    427098
+f1			    0.5 0.5 0.5 1.5
+f2			    2 6 2 2
+f3	            3 9 3 9
+snap_tolerance      0.001
+planarity_tolerance 0.01
+overlap_tolerance   -1
+th_topo			0.001
+ground_level	1
+z_ground		1
+th_slivers		0
+th_angles		0
+th_edges		0
+h_gs			3
+theta_gs		45
+save_gs			../output/gs.obj
+topocheck		../output/topocheck.obj			            ../output/topocheck.txt
+slivers			../output/sliver_triangles.obj		        ../output/sliver_triangles.txt
+sharpangles		../output/sharp_angles.obj			        ../output/sharp_angles.txt
+shortedges		../output/short_edges.obj			        ../output/short_edges.txt
+overlappingbuildings    ../output/overlapping_buildings.obj ../output/overlapping_buildings.txt
+val3dity		        ../output/report_val3dity.json
+rotated_model		    ../output/rotated_model.obj
+blockMeshDict		    ../data/blockMeshDict			    ../output/blockMeshDict         ../output/blockMeshDict_noNmax				../output/blockMeshDict_Nmax
+snappyHexMeshDict	    ../data/snappyHexMeshDict3          ../output/snappyHexMeshDict		../output/snappyHexMeshDict_noNmax			../output/snappyHexMeshDict_Nmax
+domain			        ../output/domain.obj				../output/domain_noNmax.obj     ../output/domain_Nmax.obj
+b_volume		        ../output/invalid_building_volumes.obj      ../output/invalid_building_volumes_noNmax.obj   ../output/invalid_building_volumes_Nmax.obj         ../output/invalid_building_volumes.txt      ../output/invalid_building_volumes_noNmax.txt   ../output/invalid_building_volumes_Nmax.txt
+b_separations		    ../output/b_separations_buildings.obj       ../output/b_separations_edges.obj               ../output/b_separations_buildings_noNmax.obj        ../output/b_separations_edges_noNmax.obj    ../output/b_separations_buildings_Nmax.obj 		../output/b_separations_edges_Nmax.obj      ../output/b_separations.txt ../output/b_separations_noNmax.txt ../output/b_separations_Nmax.txt;
+RoI			            ../output/RoI.obj				            ../output/RoI.txt					            ../output/RoI_cylinder.obj
+output_for_UI           ../output/output_for_UI.txt
+distances               ../output/distances.txt

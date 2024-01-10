@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8">
+        <title>CFD pre-run settings validation</title>
+        <link rel="stylesheet" href="/static/style_input.css" />
+        <style>
+            .hidden {
+            display: none;
+            }
+
+            a { text-decoration: none; }
+
+        </style>
+
+    </head>
+
+    <body>
+        <header> </header>
+        <main class="table">
+            <section class="table__header">
+                <h1>Input data</h1>
+            </section>
+
+
+    <section class="table__body">
+        <tr>
+            <br>
+
+            <form method=post>
+
+                {{form.hidden_tag()}}
+                {{form.csrf_token}}
+
+                  <div class="row">
+                  <div class="column">
+
+                      <a  style="color:#000000"  href="/explanation#Mesh definition parameters"><b>Mesh parameters definition:</b></a><br><br>
+
+                <a style="color:#000000" href="/explanation#Flow direction">Flow direction:</a>&emsp;
+                {{form.d_flow}}
+                <br><br>
+
+                <a  style="color:#000000"  href="/explanation#Target evaluation height">Target evaluation height:</a>&emsp;
+                {{form.h_user}}
+                <br><br>
+
+                                  <a  style="color:#000000"  href="/explanation#Unit parameter">Unit parameter (1=1m):</a>&emsp;
+                {{form.unit}}
+                <br><br>
+
+                <a  style="color:#000000"  href="/explanation#Domain definition">Blockage ratio:</a>
+
+                      {% for subfield in form.BR %}
+                      <tr>
+                          <td>{{ subfield }}</td>
+                          <td>{{ subfield.label }}</td>
+                      </tr>
+                      {% endfor %}<br><br>
+                
+
+                      <div id="n_RB" onchange="toggle_n_RB()">
+                         <a  style="color:#000000"  href="/explanation#Refinement boxes">Number of refinement boxes:</a>
+                        {% for subfield in form.n_boxes %}
+                        <tr>
+                            <td>{{ subfield }}</td>
+                            <td>{{ subfield.label }}</td>
+                        </tr>
+                        {% endfor %}<br><br>
+                      </div>
+
+                <a  style="color:#000000"  href="/explanation#Domain definition">Domain definition with largest:</a>
+                {% for subfield in form.dim %}
+                      <tr>
+                          <td>{{ subfield }}</td>
+                          <td>{{ subfield.label }}</td>
+                      </tr>
+                      {% endfor %}<br><br>
+
+                <a  style="color:#000000"  href="/explanation#Refinement boxes">Refinement boxes:</a><br>
+
+                 Box 1: {{form.f1_in}} {{form.f1_out}} {{form.f1_lat}} {{form.f1_top}}<br>
+                 Box 2: {{form.f2_in}} {{form.f2_out}} {{form.f2_lat}} {{form.f2_top}}<br>
+                 <div id="box_3" style="display: none;">
+                        Box 3: {{form.f3_in}} {{form.f3_out}} {{form.f3_lat}} {{form.f3_top}}<br>
+                 </div>
+
+                      <script>
+                        function toggle_n_RB() {
+                            const n_b = document.getElementsByName('n_boxes');
+                            const add_box_3 = document.getElementById('box_3');
+
+                            for (let n of n_b) {
+                                if (n.checked && n.value === '3') {
+                                    add_box_3.style.display = 'block';
+                                } else {
+                                    add_box_3.style.display = 'none';
+                                }
+                            }
+                        }
+                    </script>
+
+                 <br>
+                 <a  style="color:#000000"  href="/explanation#Maximum roughness length">Maximum roughness height:</a>&emsp;
+                {{form.z0}}
+                <br><br>
+
+                <a  style="color:#000000"  href="/explanation#Maximum number of cells">Maximum number of cells:</a>&emsp;
+                {{form.max}}
+                <br><br>
+
+                <a  style="color:#000000"  href="/explanation#Maximum cell ratio">Maximum cell ratio:</a>&emsp;
+                {{form.r_min}}
+                <br><br>
+
+                <a  style="color:#000000"  href="/explanation#Maximum building separation and street distribution">Maximum building separation:</a>&emsp;
+                {{form.d_street}}<br>
+
+                      {% if street_distribution == 1 %}
+
+                      <div id="street_distribution" onclick="toggle_distribution()">
+                           {{form.distribution}} <a  style="color:#000000"  href="/explanation#Street ]distribution"><small> Street width distribution </small></a>
+
+                      </div>
+                      <div id="dist" style="display: none;">
+                          <img src='../static/output/histogram.png' alt='Street distribution' width="400">
+                      </div>
+
+                       <script>
+                        function toggle_distribution() {
+                            const t = document.getElementsByName('distribution')[0];
+                            const add_xy = document.getElementById('dist');
+
+
+                                if (t.checked) {
+                                    add_xy.style.display = 'block';
+                                } else {
+                                    add_xy.style.display = 'none';
+                                }
+
+                        }
+                        //https://stackoverflow.com/questions/71801932/how-to-display-additional-fields-if-wtforms-booleanfield-checked-flask-python-->
+                        </script>
+
+                       {% endif %}
+
+                <br>
+
+                        <div id="b_target" onclick="toggle_target()">
+                        <a  style="color:#000000"  href="/explanation#Target building">Target building:</a>&emsp;
+
+                        {{form.target}}
+                        </div>
+<!--                        <input type="checkbox" name="show_additional_fields" id="show_additional_fields" onchange="toggleAdditionalFields()">-->
+
+                        <div id="b_x_y" style="display: none;">
+                            {{ form.x.label }}
+                            {{ form.x }}<br>
+                            {{ form.y.label }}
+                            {{ form.y }}<br>
+                        </div>
+
+                      <script>
+                        function toggle_target() {
+                            const t = document.getElementsByName('target')[0];
+                            const add_xy = document.getElementById('b_x_y');
+               
+                          
+                                if (t.checked) {
+                                    add_xy.style.display = 'block';
+                                } else {
+                                    add_xy.style.display = 'none';
+                                }
+                            
+                        }
+                        //https://stackoverflow.com/questions/71801932/how-to-display-additional-fields-if-wtforms-booleanfield-checked-flask-python-->
+                    </script>
+                    
+                <br><br>
+
+                  </div>
+
+                  <div class="column">
+
+                      <a  style="color:#000000"  href="/explanation#Geometric validation parameters"><b>Geometric validations:</b></a><br><br>
+
+                        <a  style="color:#000000"  href="/explanation#val3dity">Snap tolerance:</a>&emsp;
+                        {{form.snaptolerance}}<br><br>
+
+                        <a  style="color:#000000"  href="/explanation#val3dity">Planarity tolerance:</a>&emsp; &emsp;
+                        {{form.planaritytolerance}}<br><br>
+
+                       <a  style="color:#000000"  href="/explanation#val3dity">Overlap tolerance:</a>&emsp; &ensp;
+                        {{form.overlaptolerance}}<br><br>
+
+                      <a  style="color:#000000"  href="/explanation#Topological relationships threshold">Topological relationships threshold:</a>&emsp;
+                        {{form.th_topo}}<br><br>
+                        
+                        <div id="gl" onclick="toggle_gl()">
+                        <a  style="color:#000000"  href="/explanation#Topological relationships threshold">Ground level</a>
+                        {{form.g_level}}
+                        </div>
+                        
+                        <div id="z_height" style="display: none;">
+                        {{form.z_ground.label}}&emsp;
+                        {{form.z_ground}}
+                         </div>
+                         
+                        <script>
+                        function toggle_gl() {
+                            const g = document.getElementsByName('g_level')[0];
+                            const add_z_height = document.getElementById('z_height');
+              
+                          
+                                if (g.checked) {
+                                    add_z_height.style.display = 'block';
+                                } else {
+                                    add_z_height.style.display = 'none';
+                                }
+                            
+                        }
+                        //https://stackoverflow.com/questions/71801932/how-to-display-additional-fields-if-wtforms-booleanfield-checked-flask-python-->
+                    </script>
+                    
+                    	<br>
+                        <a  style="color:#000000"  href="/explanation#Sliver triangle threshold">Sliver triangles threshold:</a>&emsp;
+                        {{form.th_slivertriangles}}<br><br>
+
+                        <a  style="color:#000000"  href="/explanation#Short edge threshold">Short edges threshold:</a>&emsp; &emsp;
+                        {{form.th_shortedges}}<br><br>
+
+                        <a  style="color:#000000"  href="/explanation#Sharp angle threshold">Sharp angles threshold:</a>&emsp; &ensp;
+                        {{form.th_sharpangles}}<br><br>
+
+                        <div id="gs_param" onclick="toggle_gs()">
+                        <a  style="color:#000000"  href="/explanation#Ground surfaces">Ground surfaces:</a>
+                        {{form.gs}}
+                        </div>
+
+                        <div id="h_theta_gs" style="display: none;">
+                            {{form.h_gs.label}}&emsp; 
+                            {{form.h_gs}}<br>
+                            {{form.theta_gs.label}}&emsp;&nbsp;&nbsp; 
+                            {{form.theta_gs}}<br><br>
+                        </div>
+
+                      <script>
+                        function toggle_gs() {
+                            const g = document.getElementsByName('gs')[0];
+                            const add_h_theta = document.getElementById('h_theta_gs');
+              
+                          
+                                if (g.checked) {
+                                    add_h_theta.style.display = 'block';
+                                } else {
+                                    add_h_theta.style.display = 'none';
+                                }
+                            
+                        }
+                        //https://stackoverflow.com/questions/71801932/how-to-display-additional-fields-if-wtforms-booleanfield-checked-flask-python-->
+                    </script>
+                  </div>
+                    </div>
+                {{form.submit()}}
+            </form>
+        </tr>
+        </section>
+        </main>
+    </body>
+</html>
+
+

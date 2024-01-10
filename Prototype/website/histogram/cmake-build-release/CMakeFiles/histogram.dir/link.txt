@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -O3 -DNDEBUG CMakeFiles/histogram.dir/src/main.cpp.o CMakeFiles/histogram.dir/src/input.cpp.o CMakeFiles/histogram.dir/src/buildings.cpp.o CMakeFiles/histogram.dir/src/output.cpp.o -o histogram  /usr/lib/x86_64-linux-gnu/libgmpxx.so /usr/lib/x86_64-linux-gnu/libmpfr.so /usr/lib/x86_64-linux-gnu/libgmp.so 

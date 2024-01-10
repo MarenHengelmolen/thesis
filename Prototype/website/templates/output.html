@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CFD pre-run settings validation</title>
+    <link rel="stylesheet" href="/static/style_output.css" />
+    
+    <style> 
+     a { text-decoration: none; }
+    </style> 
+</head>
+
+<body>
+        <main class="table">
+        <section class="table__header">
+            <h1>Results</h1>
+        </section>
+
+        <section class="table__body">
+
+        <table>
+        <tr>
+            {% for header in headings %}
+            <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+
+        <tr>
+            <td><a style="color:#000000" href="/explanation#Separate building and terrain validation">Separate building and terrain validation</a></td>
+            <td><span style='font-size:14px; color: red'>&#9679;</span> Error</td>
+            <td> {{validity}} </td>
+            <td>
+            <a style="color:#498D9D"  href="{{url_for('static', filename='output/report_val3dity.json')}}"  download>val3dity report</a></td></td>
+        </tr>
+
+        <tr>
+            <td><a style="color:#000000" href="/explanation#Topological relationships errors">Topological relationships<br></a><a style = "font-size: small"> (between building and terrain features)</a></td>
+            <td><span style='font-size:14px; color: red'>&#9679;</span> Error
+            <span style='font-size:14px; color: orange'>&#9679;</span> Warning</td>
+            <td> {{topo_errors}} errors,
+            {{topo_warnings}} warnings </td>
+            <td>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/topocheck.obj')}}" download>Topological errors (OBJ)</a><br></td>
+<!--            <a style= "font-size: small" href="{{url_for('static', filename='output/topological_relationships.txt')}}" download>Topological errors (TXT)</a></td>-->
+        </tr>
+
+        <tr>
+            <td><a style="color:#000000" href="/explanation#Sharp angles">Sharp angles</a></td>
+            <td><span style='font-size:14px; color: orange'>&#9679;</span> Warning</td>
+            <td> {{sharp_angles}} sharp angles</td>
+            <td>
+            <a style="color:#498D9D"  href="{{url_for('static', filename='output/sharp_angles.obj')}}" download>Sharp angles (OBJ)</a><br>
+            <a style="color:#498D9D"  href="{{url_for('static', filename='output/sharp_angles.txt')}}" download>Sharp angles (TXT)</a></td>
+        </tr>
+
+        <tr>
+            <td><a style="color:#000000" href="/explanation#Sliver triangles">Sliver triangles</a></td>
+            <td><span style='font-size:14px; color: orange'>&#9679;</span> Warning</td>
+            <td>  {{slivers}} sliver triangles</td>
+            <td>
+            <a style="color:#498D9D"  href="{{url_for('static', filename='output/sliver_triangles.obj')}}" download>Sliver triangles (OBJ)</a><br>
+            <a style="color:#498D9D"  href="{{url_for('static', filename='output/sliver_triangles.txt')}}" download>Sliver triangles (TXT)</a></td>
+        </tr>
+
+        <tr>
+            <td><a style="color:#000000" href="/explanation#Short edges">Short edges</a></td>
+            <td><span style='font-size:14px; color: orange'>&#9679;</span> Warning</td>
+            <td> {{short_edges}} short edges </td>
+            <td>
+            <a style="color:#498D9D"  href="{{url_for('static', filename='output/short_edges.obj')}}" download>Short edges (OBJ)</a><br>
+            <a style="color:#498D9D"  href="{{url_for('static', filename='output/short_edges.txt')}}" download>Short edges (TXT)</a></td>
+        </tr>
+
+        <tr>
+            <td><a style="color:#000000" href="/explanation#Overlapping buildings">Overlapping buildings</a></td>
+            <td><span style='font-size:14px; color: orange'>&#9679;</span> Warning</td>
+            <td> {{overlap}} overlapping buildings </td>
+            <td>
+            <a style="color:#498D9D"  href="{{url_for('static', filename='output/overlapping_buildings.obj')}}" download>Overlapping buildings (OBJ)</a><br>
+            <a style="color:#498D9D"  href="{{url_for('static', filename='output/overlapping_buildings.txt')}}" download>Overlapping buildings (TXT)</a></td>
+        </tr>
+
+        <tr>
+            <td><a style="color:#000000" href="/explanation#Rotated 3D model">Rotated 3D model</a></td>
+            <td><span style='font-size:14px; color: limegreen'>&#9679;</span> Advice</td>
+            <td> Flow direction of {{direction}}&deg </td>
+            <td>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/rotated_model.obj')}}" download>Rotated 3D model (OBJ)</a><br></td>
+        </tr>
+
+        <tr>
+            <td><a style="color:#000000" href="/explanation#blockMeshDict">blockMeshDict</a><br><a style = "font-size: small">(without ground refinement)</a></td>
+            <td><span style='font-size:14px; color: limegreen'>&#9679;</span> Advice</td>
+            <td> No. tallest building ({{h_max}}m): <br> - {{ hx1 }} in x-direction <br> - {{hy1}} in y-direction <br> - {{hz1}} in z-direction </td>
+            <td>
+            <a style="color:#498D9D"  href="{{url_for('static', filename='output/blockMeshDict')}}" download>blockMeshDict</a><br></td>
+        </tr>
+        
+        <tr>
+            <td><a style="color:#000000" href="/explanation#blockMeshDict">blockMeshDict</a><br><a style = "font-size: small">(with ground refinement, no cell limitation)</a></td>
+            <td><span style='font-size:14px; color: limegreen'>&#9679;</span> Advice</td>
+            <td> No. tallest building ({{h_max}}m): <br> - {{ hx2 }} in x-direction <br> - {{hy2}} in y-direction <br> - {{hz2}} in z-direction </td>
+            <td>
+            <a style="color:#498D9D"  href="{{url_for('static', filename='output/blockMeshDict_noNmax')}}" download>blockMeshDict</a><br></td>
+        </tr>
+        
+       <tr>
+            <td><a style="color:#000000" href="/explanation#blockMeshDict">blockMeshDict</a><br><a style = "font-size: small">(with ground refinement and cell limitation)</a></td>
+            <td><span style='font-size:14px; color: limegreen'>&#9679;</span> Advice</td>
+            <td> No. tallest building ({{h_max}}m): <br> - {{ hx3 }} in x-direction <br> - {{hy3}} in y-direction <br> - {{hz3}} in z-direction </td>
+            <td>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/blockMeshDict_Nmax')}}" download>blockMeshDict</a><br></td>
+        </tr>
+
+        <tr>
+            <td><a style="color:#000000" href="/explanation#snappyHexMeshDict">snappyHexMeshDict</a><br><a style = "font-size: small">(without ground refinement)</a></td>
+            <td><span style='font-size:14px; color: limegreen'>&#9679;</span> Advice</td>
+            <td>Approx. {{N1}} cells ({{hcell}}x{{wcell}}m)<br>Elevation height: {{eh_a}}-{{eh_b}}m</td>
+            <td>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/snappyHexMeshDict')}}" download>snappyHexMeshDict</a><br></td>
+        </tr>
+        
+        <tr>
+            <td><a style="color:#000000" href="/explanation#snappyHexMeshDict">snappyHexMeshDict </a><br><a style = "font-size: small">(with ground refinement, no cell limitation)</a></td>
+            <td><span style='font-size:14px; color: limegreen'>&#9679;</span> Advice</td>
+            <td>Approx. {{N2}} cells ({{hcell2}}x{{wcell2}}m)<br>Elevation height: {{eh2}}m</td>
+            <td>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/snappyHexMeshDict_Nmax')}}" download>snappyHexMeshDict</a><br></td>
+        </tr>
+
+	    <tr>
+        <td><a style="color:#000000" href="/explanation#snappyHexMeshDict">snappyHexMeshDict </a><br><a style = "font-size: small">(with ground refinement and cell limitation)</a></td>
+            <td><span style='font-size:14px; color: limegreen'>&#9679;</span> Advice</td>
+            <td> Approx. {{N2}} cells ({{hcell3}}x{{wcell3}}m)<br>Elevation height: {{eh3}}m</td>
+            <td>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/snappyHexMeshDict_noNmax')}}" download>snappyHexMeshDict</a><br></td>
+        </tr>
+        
+        <tr>
+            <td><a style="color:#000000" href="/explanation#Region of Interest (RoI)">Region of Interest (RoI)</a></td>
+            <td><span style='font-size:14px; color: limegreen'>&#9679;</span> Advice</td>
+            <td> {{RoI1}} buildings <br> {{RoI2}}% buildings</td>
+            <td>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/RoI_cylinder.obj')}}" download>RoI (OBJ)</a><br>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/RoI.obj')}}" download>Buildings in RoI (OBJ)</a><br>
+            <a style="color:#498D9D"  href="{{url_for('static', filename='output/RoI.txt')}}" download>Buildings in RoI (TXT)</a></td>
+        </tr>
+
+        <tr>
+            <td><a style="color:#000000" href="/explanation#Buildings with insufficient cells">Buildings with insufficient cells </a><br><a style = "font-size: small"> (without ground refinement)<a></td>
+            <td><span style='font-size:14px; color: orange'>&#9679;</span> Warning</td>
+            <td> {{n_BV_valid }}% buildings</td>
+            <td>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/invalid_building_volumes.obj')}}" download>Buildings with insufficient cells (OBJ)</a><br></td>
+        </tr>
+        
+        <tr>
+            <td><a style="color:#000000" href="/explanation#Buildings with insufficient cells">Buildings with insufficient cells</a><br> <a style = "font-size: small"> (with ground refinement, no cell limitation)</a></td>
+            <td><span style='font-size:14px; color: orange'>&#9679;</span> Warning</td>
+            <td> {{n_BV_valid1 }}% buildings</td>
+            <td>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/invalid_building_volumes_noNmax.obj')}}" download>Buildings with insufficient cells (OBJ)</a><br></td>
+        </tr>
+
+        <tr>
+            <td><a style="color:#000000" href="/explanation#Buildings with insufficient cells">Buildings with insufficient cells </a><br> <a style = "font-size: small">(with ground refinement and cell limitation)</a></td>
+            <td><span style='font-size:14px; color: orange'>&#9679;</span> Warning</td>
+            <td> {{n_BV_valid2 }}% valid buildings</td>
+            <td>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/invalid_building_volumes_Nmax.obj')}}" download>Buildings with insufficient cells (OBJ)</a><br></td>
+        </tr>
+
+        <tr>
+            <td><a style="color:#000000" href="/explanation#Building separations with insufficient cells">Building separations with insufficient cells</a><br><a style = "font-size: small"> (without ground refinement)<a></td>
+            <td><span style='font-size:14px; color: orange'>&#9679;</span> Warning</td>
+            <td> {{n_S_valid}}% valid buildings</td>
+            <td>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/b_separations_buildings.obj')}}" download>Invalid buildings (OBJ)</a><br>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/b_separations_edges.obj')}}" download>Invalid separations (OBJ)</a></td>
+        </tr>
+        
+        <tr>
+            <td><a style="color:#000000" href="/explanation#Building separations with insufficient cells">Building separations with insufficient cells</a><br><a style = "font-size: small"> (with ground refinement, no cell limitation)<a></td>
+            <td><span style='font-size:14px; color: orange'>&#9679;</span> Warning</td>
+            <td> {{n_S_valid1}}% valid buildings</td>
+            <td>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/b_separations_buildings_noNmax.obj')}}" download>Invalid buildings (OBJ)</a><br>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/b_separations_edges_noNmax.obj')}}" download>Invalid separations (OBJ)</a></td>
+        </tr>
+
+        <tr>
+            <td><a style="color:#000000" href="/explanation#Building separations with insufficient cells">Building separations with insufficient cells</a><br><a style = "font-size: small"> (with ground refinement and cell limitation)<a></td>
+            <td><span style='font-size:14px; color: orange'>&#9679;</span> Warning</td>
+            <td>{{n_S_valid2}}% valid buildings </td>
+            <td>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/b_separations_buildings_Nmax.obj')}}" download>Invalid buildings (OBJ)</a><br>
+            <a style="color:#498D9D" href="{{url_for('static', filename='output/b_separations_edges_Nmax.obj')}}" download>Invalid separations (OBJ)</a></td>
+        </tr>
+
+    </table>
+</body>
+</html>

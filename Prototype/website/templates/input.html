@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="UTF-8">
+        <title>CFD pre-run settings validation</title>
+        <link rel="stylesheet" href="/static/style_input.css" />
+        <style>
+            .hidden {
+            display: none;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <header> </header>
+        <main class="table">
+            <section class="table__header">
+                <h1>Input model</h1>
+            </section>
+
+
+    <section class="table__body">
+        <tr>
+            <br>
+            <p>Please upload your 3D city model. STL and OBJ files containing triangular faces are supported.</p><br>
+            <form method=post enctype=multipart/form-data>
+
+                {{form.hidden_tag()}}
+                {{form.file()}}<br><br>
+                {{form.csrf_token}}
+
+                <br>
+                Street width distribution:
+                {{form.street_distribution}}
+                <br><br>
+
+                {{form.submit()}}
+
+            </form>
+
+        </tr>
+        </section>
+        </main>
+
+    </body>
+</html>
+
+
